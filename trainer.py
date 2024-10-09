@@ -44,7 +44,7 @@ class trainer():
         
         # others
         self.expnorm = args.expnorm
-        # We highly recommend to use expnorm, which results in similar projection intensity range between [0, 1].
+        # We highly recommend to use expnorm, which results in similar projection intensity range between (0, 1].
         # It is beneficial for encoder to extract features, which usually leads to better performance and faster convergence.
         if args.datatype == 'dental':
             self.clamp_min = conf.get_float('data.dental.clamp_min')
