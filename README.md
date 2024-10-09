@@ -3,7 +3,7 @@
 
 ## [Paper](https://ieeexplore.ieee.org/document/10705334) | [Arxiv](https://arxiv.org/abs/2303.14739) | [Project Page](https://shanghaitech-impact.github.io/Geometry-Aware-Attenuation-Learning-for-Sparse-View-CBCT-Reconstruction/)
 
-This is the official repo of our paper "Geometry-Aware Attenuation Learning for Sparse-View CBCT Reconstruction" in IEEE TMI 2024. In this work, we describe a novel encoder-decoder framework for sparse-view CBCT reconstruction which integrates the inherent geometry of CBCT scanning system. It produces high quality CBCT reconstructions with sparse input (20 views or less) in a time-efficient manner, which aims to reduce radiation exposure.
+This is the official repo of our paper "Geometry-Aware Attenuation Learning for Sparse-View CBCT Reconstruction" in **IEEE TMI 2024**. In this work, we describe a novel encoder-decoder framework for sparse-view CBCT reconstruction which integrates the inherent geometry of CBCT scanning system. It produces high quality CBCT reconstructions with sparse input (20 views or less) in a time-efficient manner, which aims to reduce radiation exposure.
 
 ![](./image/CBCT_recon_TMI.png)
 
