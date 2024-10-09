@@ -1,0 +1,7 @@
+numpy==1.24.4
+pyhocon==0.3.61
+SimpleITK==2.4.0
+skimage==0.0
+torch==2.1.2+cu118
+torchvision==0.16.2+cu118
+tqdm==4.66.5

@@ -1,0 +1,54 @@
+{
+    "train": [
+        "Walnut25",
+        "Walnut2",
+        "Walnut41",
+        "Walnut15",
+        "Walnut22",
+        "Walnut30",
+        "Walnut4",
+        "Walnut20",
+        "Walnut23",
+        "Walnut26",
+        "Walnut27",
+        "Walnut5",
+        "Walnut39",
+        "Walnut12",
+        "Walnut40",
+        "Walnut36",
+        "Walnut9",
+        "Walnut7",
+        "Walnut16",
+        "Walnut3",
+        "Walnut31",
+        "Walnut1",
+        "Walnut8",
+        "Walnut29",
+        "Walnut10",
+        "Walnut35",
+        "Walnut11",
+        "Walnut34",
+        "Walnut32",
+        "Walnut19",
+        "Walnut28",
+        "Walnut33"
+    ],
+    "val": [
+        "Walnut24",
+        "Walnut17",
+        "Walnut14",
+        "Walnut42",
+        "Walnut37"
+    ],
+    "test": [
+        "Walnut21",
+        "Walnut38",
+        "Walnut18",
+        "Walnut13",
+        "Walnut6"
+    ],
+    "visual": [
+        "Walnut21",
+        "Walnut38"
+    ]
+}
