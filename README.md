@@ -20,13 +20,13 @@ First clone this repo. And then set up an environment and install packages. We u
 ## Dataset Preparation
 
 ### Dental Dataset (Private, Simulated)
-We provide the preprocessed dental CBCT volumes in BaiduDesk. Please refer to [DRR-Simulation](#DRR-Simulation) for X-ray projection simulation.
+We provide the preprocessed dental CBCT volumes in BaiduDesk. 130 cases in total, including 100 cases for training, 10 cases for validation, and 20 cases for testing. Please refer to [DRR-Simulation](#DRR-Simulation) for X-ray projection simulation.
 
 ### Spine Dataset (Public, Simulated)
-As for the spinal dataset, please refer to [CTSpine1K](https://github.com/MIRACLE-Center/CTSpine1K) for more details. We provide the preprocessed spine CT volumes in BaiduDesk. Please refer to [DRR-Simulation](#DRR-Simulation) for X-ray projection simulation.
+As for the spinal dataset, please refer to [CTSpine1K](https://github.com/MIRACLE-Center/CTSpine1K) for more details. We provide the preprocessed spine CT volumes in BaiduDesk. 130 cases in total, including 100 cases for training, 10 cases for validation, and 20 cases for testing. Please refer to [DRR-Simulation](#DRR-Simulation) for X-ray projection simulation.
 
 ### Walnut Dataset (Public, Real-World)
-As for the walnut dataset, please refer to [WalnutScan](https://github.com/cicwi/WalnutReconstructionCodes) for more details. It is a large-scale real-world walnut CBCT scans dataset collected for machine learning purpose. Many thanks to this great work. We provide the preprocessed walnut CBCT volumes, real-world projections, and geometry description files in BaiduDesk. You may download them, and then put them in a self-built folder `./dataset/walnut`.
+As for the walnut dataset, please refer to [WalnutScan](https://github.com/cicwi/WalnutReconstructionCodes) for more details. It is a large-scale real-world walnut CBCT scans dataset collected for machine learning purpose. Many thanks to this great work. We provide the preprocessed walnut CBCT volumes, real-world projections, and geometry description files in BaiduDesk. 42 cases in total, including 32 cases for training, 5 cases for validation, and 5 cases for testing. You may download them, and then put them in a self-built folder `./dataset/walnut`.
 
 Dataset link: [BaiduDesk](https://pan.baidu.com/s/1fDVFzLQhCw_PDU8Z94KiaQ); Code: z6m7; The dataset split is set as default in `./data/dataset_split`.
 
