@@ -43,7 +43,7 @@ In our experiments, we apply Digitally Reconstructed Radiography (DRR) technique
 In this way, you will get a data folder `./dataset/dental/syn_data` or `./dataset/spine/syn_data` that containing synthesized X-ray projections and geometry description files for each scanned object. It will generate 360 projections uniformly spaced within the angle range of [0, 360).
 
 ## Train
-After preparing the dataset, you could run the following command to train your model.
+After preparing the dataset and X-ray simulation, you could run the following command to train your model.
 
     python train.py -n=<Expname> -D=./dataset/dental/syn_data --datatype=dental --train_scale=4 --fusion=ada --start=0 --end=360 --nviews=20 --angle_sampling=uniform --is_train 
 
