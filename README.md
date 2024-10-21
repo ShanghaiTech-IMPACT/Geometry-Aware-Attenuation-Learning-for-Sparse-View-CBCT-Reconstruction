@@ -32,7 +32,7 @@ As for the walnut dataset, please refer to [WalnutScan](https://github.com/cicwi
 
 Dataset link: 
 [BaiduDesk](https://pan.baidu.com/s/1fDVFzLQhCw_PDU8Z94KiaQ) contain all three datasets, Code: z6m7; 
-[GoogleDrive](https://drive.google.com/drive/folders/1lohU5e9oiGehK3F6W8etLlMYCWI04qnW?usp=drive_link) only contain dental and spine dataset;
+[GoogleDrive](https://drive.google.com/drive/folders/1lohU5e9oiGehK3F6W8etLlMYCWI04qnW?usp=drive_link) only contain dental and spine datasets;
 
 The dataset split is set as default in `./data/dataset_split`.
 
