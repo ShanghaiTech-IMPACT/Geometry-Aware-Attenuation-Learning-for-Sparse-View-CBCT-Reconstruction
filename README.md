@@ -13,8 +13,8 @@ We have provide a new `angle2vec` function in `models/render.py` that incorporat
 ## Setup
 First clone this repo. And then set up an environment and install packages. We use single A100 80G GPU card for training. Make sure you have enough resources.
 
-    git clone https://github.com/Zhentao-Liu/Sparse-View-CBCT-Reconstruction.git
-    cd Sparse-View-CBCT-Reconstruction
+    git clone https://github.com/ShanghaiTech-IMPACT/Geometry-Aware-Attenuation-Learning-for-Sparse-View-CBCT-Reconstruction.git
+    cd Geometry-Aware-Attenuation-Learning-for-Sparse-View-CBCT-Reconstruction
     conda create -n CBCTrecon python=3.8
     conda activate CBCTrecon
     pip install torch==2.1.2+cu118 torchvision==0.16.2+cu118 --extra-index-url https://download.pytorch.org/whl/cu118
