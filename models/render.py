@@ -2,24 +2,30 @@ import numpy as np
 import torch.nn.functional as F
 import torch
 
-def angle2vec(angle, isocenter, sid, sad, proj_spacing_x, proj_spacing_y, type):
-    # input: angle in rad
+def angle2vec(PrimaryAngle, SecondaryAngle, isocenter, sid, sad, proj_spacing_x, proj_spacing_y, type='cone_vec'):
+    # input: PrimaryAngle, SecondaryAngle in rad
     # output: vec [12]
-    cam_x = isocenter[0] + sad * np.cos(angle)
-    cam_y = isocenter[1] + sad * np.sin(angle)
-    cam_z = isocenter[2]
+
+    cam_x = isocenter[0] + sad * np.cos(SecondaryAngle) * np.cos(PrimaryAngle)
+    cam_y = isocenter[1] + sad * np.cos(SecondaryAngle) * np.sin(PrimaryAngle)
+    cam_z = isocenter[2] + sad * np.sin(SecondaryAngle)
     cam = np.array([cam_x, cam_y, cam_z])
 
-    det_x = isocenter[0] - (sid-sad) * np.cos(angle)
-    det_y = isocenter[1] - (sid-sad) * np.sin(angle)
-    det_z = isocenter[2]
+    det_x = isocenter[0] - (sid-sad) * np.cos(SecondaryAngle) * np.cos(PrimaryAngle)
+    det_y = isocenter[1] - (sid-sad) * np.cos(SecondaryAngle) * np.sin(PrimaryAngle)
+    det_z = isocenter[2] - (sid-sad) * np.sin(SecondaryAngle)
     det = np.array([det_x, det_y, det_z])
 
-    u_x = proj_spacing_x * np.sin(angle)
-    u_y = proj_spacing_y * np.cos(angle)
+    u_x = -proj_spacing_x * np.sin(PrimaryAngle)
+    u_y = proj_spacing_x  * np.cos(PrimaryAngle)
+    u_z = 0
+    
+    v_x = proj_spacing_y * np.sin(SecondaryAngle) * np.cos(PrimaryAngle)
+    v_y = proj_spacing_y * np.sin(SecondaryAngle) * np.sin(PrimaryAngle)
+    v_z = -proj_spacing_y * np.cos(SecondaryAngle)  # opposite direction for display purpose, not necessary
 
-    u_vector = np.array([-u_x, u_y, 0])
-    v_vector = np.array([0, 0, -proj_spacing_y])  # opposite direction for display purpose, not necessary
+    u_vector = np.array([u_x, u_y, u_z])
+    v_vector = np.array([v_x, v_y, v_z])
 
     if type == 'cone_vec':
         vec = np.concatenate([cam, det, u_vector, v_vector])
@@ -27,6 +33,7 @@ def angle2vec(angle, isocenter, sid, sad, proj_spacing_x, proj_spacing_y, type):
         ray_dir = det - cam
         ray_dir = ray_dir / np.linalg.norm(ray_dir)
         vec = np.concatenate([ray_dir, det, u_vector, v_vector])
+
     return vec
 
 def get_pixel00_center(detectors, uvectors, vvectors, H, W):
