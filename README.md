@@ -8,7 +8,7 @@ This is the official repo of our paper **Geometry-Aware Attenuation Learning for
 ![](./image/CBCT_recon_TMI.png)
 
 ## Updated Feature
-We have provide a new `angle2vec` function in `models/render.py` that incorporates both `PrimaryAngle` and `SecondaryAngle`, which are commonly used in real-world CBCT scanning system. You may refer to [DICOM Geometry](https://dicom.innolitics.com/ciods/x-ray-angiographic-image/xa-positioner/00181510) for more details about these two angles. And in our paper (DRR simulation for simulated datasets), we only consider about `PrimaryAngle` (rotation angle in our paper), assuming `SecondaryAngle` is set to zero by default. 
+We have provide a new `angle2vec` function in `models/render.py` that incorporates both `PrimaryAngle` and `SecondaryAngle`, which are commonly used in real-world CBCT scanning system. You may refer to [DICOM Geometry](https://dicom.innolitics.com/ciods/x-ray-angiographic-image/xa-positioner/00181510) for more details about these two angles. And in our paper (DRR simulation for simulated datasets), we only consider about `PrimaryAngle` (rotation angle in our paper), assuming `SecondaryAngle` is set to zero by default. `SecondaryAngle` could also be applied for Computed Laminography (CL) imaging, just setting `SecondaryAngle` as the oblique angle.
 
 ## Setup
 First clone this repo. And then set up an environment and install packages. We use single A100 80G GPU card for training. Make sure you have enough resources.
