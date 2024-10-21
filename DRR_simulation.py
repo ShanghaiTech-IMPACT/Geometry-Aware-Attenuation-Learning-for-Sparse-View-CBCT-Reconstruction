@@ -64,7 +64,7 @@ def GeometryProduction(args, niipath, projpath):
         cnt = 0
         for angle in tqdm(angles, desc='Projection Geometry Production'):
             angle *= np.pi / 180  # degree to radian
-            vec = angle2vec(angle, isocenter, sid, sad, proj_spacing[0], proj_spacing[1], 'cone_vec')
+            vec = angle2vec(angle, 0, isocenter, sid, sad, proj_spacing[0], proj_spacing[1], 'cone_vec')
 
             frame = {
                 'file': str(cnt).zfill(4),
