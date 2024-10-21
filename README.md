@@ -30,7 +30,9 @@ As for the spinal dataset, please refer to [CTSpine1K](https://github.com/MIRACL
 ### Walnut Dataset (Real-World)
 As for the walnut dataset, please refer to [WalnutScan](https://github.com/cicwi/WalnutReconstructionCodes) for more details. It is a large-scale real-world walnut CBCT scans dataset collected for machine learning purpose. Many thanks to this great work. We provide the preprocessed walnut CBCT volumes, real-world projections, and geometry description files in BaiduDesk. 42 cases in total, including 32 cases for training, 5 cases for validation, and 5 cases for testing. You may download them, and then put them in a self-built folder `./dataset/walnut`.
 
-Dataset link: [BaiduDesk](https://pan.baidu.com/s/1fDVFzLQhCw_PDU8Z94KiaQ); Code: z6m7; The dataset split is set as default in `./data/dataset_split`.
+Dataset link: [BaiduDesk](https://pan.baidu.com/s/1fDVFzLQhCw_PDU8Z94KiaQ); Code: z6m7; 
+
+The dataset split is set as default in `./data/dataset_split`.
 
 ## DRR-Simulation
 
