@@ -63,7 +63,7 @@ Once the above training converged, you could run the following command to evalua
 
 In this way, it would test the model with 20 input views uniformly spaced within [0, 360) on dental dataset. The downsampling rate during evaluation S=4. Resumed from 200 epoch. You may modify these hyperparameters to evaluate your own model.
 
-You can also take a quick verification with the pretrained weights. Just find them in the [dataset download link](#Dataset-Preparation)
+You can also take a quick verification with the pretrained weights. Just find them in the [dataset download link](#Dataset-Preparation).
 
 ## Contact
 There may be some errors during code cleaning. If you have any questions on our code or our paper, please feel free to contact with the author: liuzht2022@shanghaitech.edu.cn, or raise an issue in this repo. 
