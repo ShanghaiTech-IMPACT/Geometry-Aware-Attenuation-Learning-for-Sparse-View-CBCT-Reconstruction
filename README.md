@@ -67,7 +67,7 @@ In this way, it would test the model with 20 input views uniformly spaced within
 You can also take a quick verification with the pretrained weights. Just find them in the [dataset download link](#Dataset-Preparation).
 
 ## Contact
-There may be some errors during code cleaning. If you have any questions on our code or our paper, please feel free to contact with the author: liuzht2022@shanghaitech.edu.cn, or raise an issue in this repo. 
+There may be some errors during code cleaning. If you have any questions on our code or our paper, please feel free to contact with the author: liuzht2022@shanghaitech.edu.cn, or raise an issue in this repo. We shall continue to update this repo. TBC.
 
 ## Citation
 If you find this work is useful for you, please cite our paper.
