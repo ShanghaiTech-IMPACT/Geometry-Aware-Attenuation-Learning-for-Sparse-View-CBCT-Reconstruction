@@ -16,7 +16,7 @@ def GeometryProduction(args, niipath, projpath):
     sad, sid = args.sad, args.sid
 
     # default projection resolution
-    proj_resolution = [256, 256]
+    proj_resolution = [512, 512]
 
     os.makedirs(projpath,exist_ok=True)
     path_list = os.listdir(niipath)
@@ -64,7 +64,7 @@ def GeometryProduction(args, niipath, projpath):
         cnt = 0
         for angle in tqdm(angles, desc='Projection Geometry Production'):
             angle *= np.pi / 180  # degree to radian
-            vec = angle2vec(angle, 0, isocenter, sid, sad, proj_spacing[0], proj_spacing[1], 'cone_vec')
+            vec = angle2vec(angle, 0, isocenter, sid, sad, proj_spacing[0], proj_spacing[1])
 
             frame = {
                 'file': str(cnt).zfill(4),
@@ -80,7 +80,7 @@ def GeometryProduction(args, niipath, projpath):
             json.dump(params, f, indent=4)
         
         gt_image = sitk.GetArrayFromImage(image)
-        gt_image = ct2mu(gt_image)
+        gt_image = ct2mu(gt_image) 
         gt_image = np.clip(gt_image, 0, gt_image.max())
         gt_image = sitk.GetImageFromArray(gt_image)
 
@@ -119,7 +119,7 @@ def ProjectionGeneration(args, projpath):
             vec = torch.tensor(frame['vec']).to(device)
             vecs.append(vec)
         vecs = torch.stack(vecs).to(device)
-        cam_rays = get_rays(vecs, H, W)
+        cam_rays = get_rays(vecs, H, W, args.raytype)
 
         projs = []
         for i in tqdm(range(Nframes), desc='Projection Generation'):
@@ -142,10 +142,11 @@ if __name__ == '__main__':
 
     parser.add_argument('--start', type=int, default=0, help='Start angle')
     parser.add_argument('--end', type=int, default=360, help='End angle')
-    parser.add_argument('--num', type=int, default=360, help='Number of angles')
-    parser.add_argument('--sad', type=float, default=500, help='Source-to-axis distance (SAD) | 500 for dental, 1000 for spine')
-    parser.add_argument('--sid', type=float, default=700, help='Source-to-image distance (SID) | 700 for dental, 1500 for spine')
-    parser.add_argument('--datapath', type=str, default='./dataset/dental', help='Path to input NIfTI files')
+    parser.add_argument('--num', type=int, default=20, help='Number of angles')
+    parser.add_argument('--sad', type=float, default=1000, help='Source-to-axis distance (SAD) | 500 for dental, 1000 for spine')
+    parser.add_argument('--sid', type=float, default=1500, help='Source-to-image distance (SID) | 700 for dental, 1500 for spine')
+    parser.add_argument('--datapath', type=str, default='./dataset/head', help='Path to input NIfTI files')
+    parser.add_argument('--raytype', type=str, default='cone', help='Projection type: cone or parallel3d')
 
     args = parser.parse_args()
     niipath = os.path.join(args.datapath, 'raw_volume')
