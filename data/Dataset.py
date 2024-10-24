@@ -85,7 +85,7 @@ class CBCTDataset(torch.utils.data.Dataset):
             render_step_size = volume_spacing * factor
 
             # pose generation
-            angles = np.random.uniform(start, end, nviews, 'cone')
+            angles = np.random.uniform(start, end, nviews)
             vecs = []
             for angle in tqdm(angles, desc='Projection Geometry Production'):
                 angle *= np.pi / 180
