@@ -89,7 +89,7 @@ class CBCTDataset(torch.utils.data.Dataset):
             vecs = []
             for angle in tqdm(angles, desc='Projection Geometry Production'):
                 angle *= np.pi / 180
-                vec = angle2vec(angle, 0, isocenter, sid, sad, proj_spacing[0], proj_spacing[1], 'cone_vec')
+                vec = angle2vec(angle, 0, isocenter, sid, sad, proj_spacing[0], proj_spacing[1])
                 vec = torch.tensor(vec, dtype=torch.float32, device=self.device)
                 vecs.append(vec)
             vecs = torch.stack(vecs)
