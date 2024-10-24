@@ -2,7 +2,7 @@ import numpy as np
 import torch.nn.functional as F
 import torch
 
-def angle2vec(PrimaryAngle, SecondaryAngle, isocenter, sid, sad, proj_spacing_x, proj_spacing_y, type='cone_vec'):
+def angle2vec(PrimaryAngle, SecondaryAngle, isocenter, sid, sad, proj_spacing_x, proj_spacing_y):
     # input: PrimaryAngle, SecondaryAngle in rad
     # output: vec [12]
 
@@ -27,13 +27,7 @@ def angle2vec(PrimaryAngle, SecondaryAngle, isocenter, sid, sad, proj_spacing_x,
     u_vector = np.array([u_x, u_y, u_z])
     v_vector = np.array([v_x, v_y, v_z])
 
-    if type == 'cone_vec':
-        vec = np.concatenate([cam, det, u_vector, v_vector])
-    elif type == 'parallel3d_vec':
-        ray_dir = det - cam
-        ray_dir = ray_dir / np.linalg.norm(ray_dir)
-        vec = np.concatenate([ray_dir, det, u_vector, v_vector])
-
+    vec = np.concatenate([cam, det, u_vector, v_vector])
     return vec
 
 def get_pixel00_center(detectors, uvectors, vvectors, H, W):
@@ -47,15 +41,43 @@ def get_pixel00_center(detectors, uvectors, vvectors, H, W):
     pixel00_center = detectors - u_offset * uvectors - v_offset * vvectors
     return pixel00_center
 
-def get_rays(vecs, H, W):
+def get_rays(vecs, H, W, raytype='cone'):
     '''
     :param vecs: [N, 12]
     :return rays: [N, W, H, 6]
     '''
+    if raytype == 'cone':
+        return get_rays_cone(vecs, H, W)
+    elif raytype == 'parallel3d':
+        return get_rays_parallel3d(vecs, H, W)
+    
+def get_rays_cone(vecs, H, W):
     device = vecs.device
     N = vecs.shape[0]
     sources, detectors, uvectors, vvectors = vecs[:, :3], vecs[:, 3:6], vecs[:, 6:9], vecs[:, 9:]    # (N, 3)
+
     pixel00_center = get_pixel00_center(detectors, uvectors, vvectors, H, W)   # (N, 3)
+    row_indices, col_indices = torch.meshgrid(torch.arange(H, device=device),    # [0, H - 1], [0, W - 1]
+                                              torch.arange(W, device=device),
+                                              indexing='ij')
+    row_indices = row_indices.expand(N, -1, -1).unsqueeze(-1)
+    col_indices = col_indices.expand(N, -1, -1).unsqueeze(-1)
+    pix_coords = pixel00_center[:, None, None, :] + col_indices * uvectors[:, None, None, :] + row_indices * vvectors[:, None, None, :]
+
+    rays_origin = sources.view(N, 1, 1, 3).expand(-1, H, W, -1)
+    rays_dirs = pix_coords - rays_origin
+    rays_dirs = rays_dirs / torch.linalg.norm(rays_dirs, dim=-1, keepdim=True)
+    rays = torch.cat((rays_origin, rays_dirs), dim=3) 
+    return rays
+
+def get_rays_parallel3d(vecs, H, W):
+    device = vecs.device
+    N = vecs.shape[0]
+    sources, detectors, uvectors, vvectors = vecs[:, :3], vecs[:, 3:6], vecs[:, 6:9], vecs[:, 9:]    # (N, 3)
+
+    pixel00_center = get_pixel00_center(detectors, uvectors, vvectors, H, W)   # (N, 3)
+    origin00_center = get_pixel00_center(sources, uvectors, vvectors, H, W)   # (N, 3)
+
     row_indices, col_indices = torch.meshgrid(torch.arange(H, device=device),    # [0, H - 1], [0, W - 1]
                                               torch.arange(W, device=device),
                                               indexing='ij')
@@ -63,7 +85,8 @@ def get_rays(vecs, H, W):
     col_indices = col_indices.expand(N, -1, -1).unsqueeze(-1)
 
     pix_coords = pixel00_center[:, None, None, :] + col_indices * uvectors[:, None, None, :] + row_indices * vvectors[:, None, None, :]
-    rays_origin = sources.view(N, 1, 1, 3).expand(-1, H, W, -1)
+    rays_origin = origin00_center[:, None, None, :] + col_indices * uvectors[:, None, None, :] + row_indices * vvectors[:, None, None, :]
+
     rays_dirs = pix_coords - rays_origin
     rays_dirs = rays_dirs / torch.linalg.norm(rays_dirs, dim=-1, keepdim=True)
     rays = torch.cat((rays_origin, rays_dirs), dim=3) 
@@ -146,14 +169,32 @@ def volume_sampling(xyz, volume, volume_origin, volume_phy):
     )
     return samples[0,0,...]
 
+def if_intersect(rays, volume_origin, volume_phy):
+    device = rays.device
+    near, far = ray_AABB(rays, volume_origin, volume_phy)
+    dis = far - near
+    _, index = torch.sort(dis, dim=0)
+    near_ = near[index[-1]]
+    far_ = far[index[-1]]
+    max_dis = far_ - near_
+    if max_dis <= 0:
+        return 0
+    else:
+        return 1
+
 def composite(rays, volume, volume_origin, volume_phy, render_step_size, chunksize=65536):
     split_rays = torch.split(rays, chunksize)
     proj_batch = None
     pred_proj = []
     for ray_batch in split_rays:
         # sample interval and composite
-        proj_batch = composite_batch(ray_batch, volume, volume_origin, volume_phy, render_step_size)
-        pred_proj.append(proj_batch)
+        if_inter = if_intersect(ray_batch, volume_origin, volume_phy)
+        if if_inter: 
+            proj_batch = composite_batch(ray_batch, volume, volume_origin, volume_phy, render_step_size)
+            pred_proj.append(proj_batch)
+        else:
+            zero_tensor = torch.zeros_like(ray_batch[:, :1])
+            pred_proj.append(zero_tensor)
     pred_proj = torch.cat(pred_proj, dim=0)
     return pred_proj
 
