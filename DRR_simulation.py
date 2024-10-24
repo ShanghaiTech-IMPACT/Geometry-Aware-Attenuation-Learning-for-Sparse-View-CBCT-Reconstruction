@@ -119,7 +119,7 @@ def ProjectionGeneration(args, projpath):
             vec = torch.tensor(frame['vec']).to(device)
             vecs.append(vec)
         vecs = torch.stack(vecs).to(device)
-        cam_rays = get_rays(vecs, H, W, args.raytype)
+        cam_rays = get_rays(vecs, H, W)
 
         projs = []
         for i in tqdm(range(Nframes), desc='Projection Generation'):
@@ -146,7 +146,6 @@ if __name__ == '__main__':
     parser.add_argument('--sad', type=float, default=1000, help='Source-to-axis distance (SAD) | 500 for dental, 1000 for spine')
     parser.add_argument('--sid', type=float, default=1500, help='Source-to-image distance (SID) | 700 for dental, 1500 for spine')
     parser.add_argument('--datapath', type=str, default='./dataset/head', help='Path to input NIfTI files')
-    parser.add_argument('--raytype', type=str, default='cone', help='Projection type: cone or parallel3d')
 
     args = parser.parse_args()
     niipath = os.path.join(args.datapath, 'raw_volume')
