@@ -41,17 +41,11 @@ def get_pixel00_center(detectors, uvectors, vvectors, H, W):
     pixel00_center = detectors - u_offset * uvectors - v_offset * vvectors
     return pixel00_center
 
-def get_rays(vecs, H, W, raytype='cone'):
+def get_rays(vecs, H, W):
     '''
     :param vecs: [N, 12]
     :return rays: [N, W, H, 6]
     '''
-    if raytype == 'cone':
-        return get_rays_cone(vecs, H, W)
-    elif raytype == 'parallel3d':
-        return get_rays_parallel3d(vecs, H, W)
-    
-def get_rays_cone(vecs, H, W):
     device = vecs.device
     N = vecs.shape[0]
     sources, detectors, uvectors, vvectors = vecs[:, :3], vecs[:, 3:6], vecs[:, 6:9], vecs[:, 9:]    # (N, 3)
@@ -69,29 +63,7 @@ def get_rays_cone(vecs, H, W):
     rays_dirs = rays_dirs / torch.linalg.norm(rays_dirs, dim=-1, keepdim=True)
     rays = torch.cat((rays_origin, rays_dirs), dim=3) 
     return rays
-
-def get_rays_parallel3d(vecs, H, W):
-    device = vecs.device
-    N = vecs.shape[0]
-    sources, detectors, uvectors, vvectors = vecs[:, :3], vecs[:, 3:6], vecs[:, 6:9], vecs[:, 9:]    # (N, 3)
-
-    pixel00_center = get_pixel00_center(detectors, uvectors, vvectors, H, W)   # (N, 3)
-    origin00_center = get_pixel00_center(sources, uvectors, vvectors, H, W)   # (N, 3)
-
-    row_indices, col_indices = torch.meshgrid(torch.arange(H, device=device),    # [0, H - 1], [0, W - 1]
-                                              torch.arange(W, device=device),
-                                              indexing='ij')
-    row_indices = row_indices.expand(N, -1, -1).unsqueeze(-1)
-    col_indices = col_indices.expand(N, -1, -1).unsqueeze(-1)
-
-    pix_coords = pixel00_center[:, None, None, :] + col_indices * uvectors[:, None, None, :] + row_indices * vvectors[:, None, None, :]
-    rays_origin = origin00_center[:, None, None, :] + col_indices * uvectors[:, None, None, :] + row_indices * vvectors[:, None, None, :]
-
-    rays_dirs = pix_coords - rays_origin
-    rays_dirs = rays_dirs / torch.linalg.norm(rays_dirs, dim=-1, keepdim=True)
-    rays = torch.cat((rays_origin, rays_dirs), dim=3) 
-    return rays
- 
+    
 def sample_volume_interval(rays, volume_origin, volume_phy, render_step_size,):
     # sample interval (flatten)
     device = rays.device
