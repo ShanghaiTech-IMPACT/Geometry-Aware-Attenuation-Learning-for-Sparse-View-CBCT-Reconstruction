@@ -8,7 +8,7 @@ This is the official repo of our paper **Geometry-Aware Attenuation Learning for
 ![](./image/CBCT_recon_TMI.png)
 
 ## Updated Feature
-- **[2024-10-21]** Debugging. We have provided a `if_intersect` function in `models/render.py` that decides whether X-rays intersect with bbx. No more bugs for no intersection in `ray_AABB` function.
+- **[2024-10-24]** Debugging. We have provided a `if_intersect` function in `models/render.py` that decides whether X-rays intersect with bbx. No more bugs for no intersection in `ray_AABB` function.
 - **[2024-10-21]** We have provided a new `angle2vec` function in `models/render.py` that incorporates both `PrimaryAngle` and `SecondaryAngle`, which are commonly used in real-world CBCT scanning system. You may refer to [DICOM Geometry](https://dicom.innolitics.com/ciods/x-ray-angiographic-image/xa-positioner/00181510) for more details about these two angles. And in our paper (DRR simulation for simulated datasets), we only consider about `PrimaryAngle` (rotation angle in our paper), assuming `SecondaryAngle` is set to zero by default. `SecondaryAngle` could also be applied for [Computed Laminography](https://iopscience.iop.org/article/10.1088/1361-6501/aafcae) (CL) imaging as discussed in issue #2, just setting `SecondaryAngle` as the oblique alpha angle.
 
 ## Setup
