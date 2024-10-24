@@ -46,7 +46,7 @@ def get_rays(vecs, H, W):
     :param vecs: [N, 12]
     :return rays: [N, W, H, 6]
     '''
-    # we only support cone-beam ray now.
+    # we only support cone-beam ray on flat panel now.
     device = vecs.device
     N = vecs.shape[0]
     sources, detectors, uvectors, vvectors = vecs[:, :3], vecs[:, 3:6], vecs[:, 6:9], vecs[:, 9:]    # (N, 3)
