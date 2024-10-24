@@ -155,7 +155,7 @@ class trainer():
             pix_inds = torch.randint(0, self.args.nviews * H * W, (self.ray_batch_size,))
             images_gt_all = src_images.reshape(-1, 1)
             proj_gt = images_gt_all[pix_inds]
-            src_rays = get_rays(src_poses, H, W)
+            src_rays = get_rays(src_poses, H, W, 'cone')
             proj_rays = src_rays.view(-1, src_rays.shape[-1])[pix_inds].to(device=device)
             proj_predict = composite(rays=proj_rays, volume=volume_predict, volume_origin=volume_origin,
                                         volume_phy=volume_phy, render_step_size=render_step_size, 
