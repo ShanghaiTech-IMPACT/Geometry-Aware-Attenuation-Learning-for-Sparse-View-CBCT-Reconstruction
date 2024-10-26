@@ -44,7 +44,7 @@ def get_pixel00_center(detectors, uvectors, vvectors, H, W):
 def get_rays(vecs, H, W):
     '''
     :param vecs: [N, 12]
-    :return rays: [N, W, H, 6]
+    :return rays: [N, H, W, 6]
     '''
     # we only support cone-beam ray on flat panel now.
     device = vecs.device
