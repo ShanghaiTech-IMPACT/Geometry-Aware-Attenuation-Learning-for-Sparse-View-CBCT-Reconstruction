@@ -325,10 +325,10 @@ class ResEncoder(nn.Module):
 
         # a little different from the paper description, [-1, 1] range for F.grid_sample
         offset = uv_proj - pixel00_center 
-        u_proj = torch.sum(offset * uvectors, dim=2) / torch.sum(uvectors * uvectors, dim=2) # [nviews, N]  data range [0, W]
-        v_proj = torch.sum(offset * vvectors, dim=2) / torch.sum(vvectors * vvectors, dim=2) # [nviews, N]  data range [0, H]
-        u_proj = 2 * (u_proj / W) - 1  # data range [0, W] --> [0, 1] --> [-1, 1]
-        v_proj = 2 * (v_proj / H) - 1  # data range [0, H] --> [0, 1] --> [-1, 1]
+        u_proj = torch.sum(offset * uvectors, dim=2) / torch.sum(uvectors * uvectors, dim=2) # [nviews, N]  data range [0, W-1]
+        v_proj = torch.sum(offset * vvectors, dim=2) / torch.sum(vvectors * vvectors, dim=2) # [nviews, N]  data range [0, H-1]
+        u_proj = 2 * (u_proj / W) - 1  # data range [0, W-1] --> [0, 1] --> [-1, 1]
+        v_proj = 2 * (v_proj / H) - 1  # data range [0, H-1] --> [0, 1] --> [-1, 1]
 
         uv = torch.cat([u_proj.unsqueeze(-1), v_proj.unsqueeze(-1)], dim=-1).unsqueeze(2) # [nviews, N, 1, 2]
 
