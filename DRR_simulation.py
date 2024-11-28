@@ -36,8 +36,7 @@ def GeometryProduction(args, niipath, projpath):
         proj_phy = volume_phy * sid / sad
         proj_phy = proj_phy[-2:]
 
-        proj_spacing = volume_spacing * sid / sad
-        proj_spacing = proj_spacing[-2:]
+        proj_spacing = proj_phy / np.asarray(proj_resolution)
 
         step = (end - start) / num
         angles = np.arange(start, end, step)
