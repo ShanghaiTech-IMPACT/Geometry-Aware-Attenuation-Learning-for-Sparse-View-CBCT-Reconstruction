@@ -86,5 +86,6 @@ If you find this work is useful for you, please cite our paper.
 - Parts of our code are adapted from [PixelNeRF](https://github.com/sxyu/pixel-nerf) implementation.
 - Pioneer NeRF-based framework for CBCT reconstruction: [NAF](https://github.com/Ruyi-Zha/naf_cbct), [SNAF](https://arxiv.org/abs/2211.17048).
 - Check the concurrent work [DIF-Net](https://github.com/xmed-lab/DIF-Net) and its improvement [C2RV](https://github.com/xmed-lab/C2RV-CBCT) which also combine feature backprojection and generalization ability to solve sparse-view CBCT reconstruction as we do.
+- It is recommended to view medical data in nii format with [ITK-SNAP](http://www.itksnap.org/pmwiki/pmwiki.php/) or [3D Slicer](https://www.slicer.org/).
 
 Thanks to all these great works.
