@@ -39,7 +39,7 @@ def GeometryProduction(args, niipath, projpath):
         if args.fullprojection:
             proj_spacing = proj_phy / np.asarray(proj_resolution)
         else:
-            proj_spacing = volume_spacing * sid / sad
+            proj_spacing = volume_spacing * sid / sad  # we suggest to use this setting
             proj_spacing = proj_spacing[-2:]
         
         step = (end - start) / num
