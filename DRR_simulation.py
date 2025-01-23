@@ -35,12 +35,8 @@ def GeometryProduction(args, niipath, projpath):
 
         proj_phy = volume_phy * sid / sad
         proj_phy = proj_phy[-2:]
-
-        if args.fullprojection:
-            proj_spacing = proj_phy / np.asarray(proj_resolution)
-        else:
-            proj_spacing = volume_spacing * sid / sad  # we suggest to use this setting
-            proj_spacing = proj_spacing[-2:]
+        proj_spacing = volume_spacing * sid / sad  # nominal spacing
+        proj_spacing = proj_spacing[-2:]
         
         step = (end - start) / num
         angles = np.arange(start, end, step)
@@ -148,7 +144,6 @@ if __name__ == '__main__':
     parser.add_argument('--num', type=int, default=20, help='Number of angles')
     parser.add_argument('--sad', type=float, default=1000, help='Source-to-axis distance (SAD) | 500 for dental, 1000 for spine')
     parser.add_argument('--sid', type=float, default=1500, help='Source-to-image distance (SID) | 700 for dental, 1500 for spine')
-    parser.add_argument('--fullprojection', type=bool, default=False, help='Full projection or not')
     parser.add_argument('--datapath', type=str, default='./dataset/head', help='Path to input NIfTI files')
 
     args = parser.parse_args()
