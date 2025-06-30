@@ -1,7 +1,7 @@
 # Geometry-Aware Attenuation Learning for Sparse-View CBCT Reconstruction
 [Zhentao Liu](https://zhentao-liu.github.io/), [Yu Fang](https://yuffish.github.io/), [Changjian Li](https://enigma-li.github.io/), [Han Wu](http://hanwu.website/), [Yuan Liu](https://liuyuan-pal.github.io/), [Dinggang Shen](https://idea.bme.shanghaitech.edu.cn/), and [Zhiming Cui](https://shanghaitech-impact.github.io/)
 
-## [Paper](https://ieeexplore.ieee.org/document/10705334) | [Arxiv](https://arxiv.org/abs/2303.14739) | [Project Page](https://shanghaitech-impact.github.io/Geometry-Aware-Attenuation-Learning-for-Sparse-View-CBCT-Reconstruction/)
+## [Paper](https://ieeexplore.ieee.org/document/10705334) | [Arxiv](https://arxiv.org/abs/2303.14739) | [Project Page](https://shanghaitech-impact.github.io/Geometry-Aware-Attenuation-Learning-for-Sparse-View-CBCT-Reconstruction/) | [Dataset&Ckpt](https://huggingface.co/datasets/Zhentao-Liu/TMI2024_SVCT_dataset)
 
 This is the official repo of our paper **Geometry-Aware Attenuation Learning for Sparse-View CBCT Reconstruction** in **IEEE TMI 2024**. In this work, we describe a novel encoder-decoder framework for sparse-view CBCT reconstruction which integrates the inherent geometry of CBCT scanning system. It produces high quality CBCT reconstructions with sparse input (20 views or less) in a time-efficient manner, which aims to reduce radiation exposure.
 
@@ -31,9 +31,7 @@ As for the spinal dataset, please refer to [CTSpine1K](https://github.com/MIRACL
 ### Walnut Dataset (Real-World)
 As for the walnut dataset, please refer to [WalnutScan](https://github.com/cicwi/WalnutReconstructionCodes) for more details. It is a large-scale real-world walnut CBCT scans dataset collected for machine learning purpose. Many thanks to this great work. We provide the preprocessed walnut CBCT volumes, real-world projections, and geometry description files in the dataset link. 42 cases in total, including 32 cases for training, 5 cases for validation, and 5 cases for testing. You may download them, and then put them in a self-built folder `./dataset/walnut`.
 
-Dataset link: 
-[BaiduDesk](https://pan.baidu.com/s/1fDVFzLQhCw_PDU8Z94KiaQ) contain all three datasets, Code: z6m7; 
-[GoogleDrive](https://drive.google.com/drive/folders/1lohU5e9oiGehK3F6W8etLlMYCWI04qnW?usp=drive_link) only contain dental and spine datasets;
+All datasets have been uploaded to [Hugging Face](https://huggingface.co/datasets/Zhentao-Liu/TMI2024_SVCT_dataset).
 
 The dataset split is set as default in `./data/dataset_split`.
 
@@ -64,7 +62,7 @@ Once the above training converged, you could run the following command to evalua
 
 In this way, it would test the model with 20 input views uniformly spaced within [0, 360) on dental dataset. The downsampling rate during evaluation S=4. Resumed from 200 epoch. You may modify these hyperparameters to evaluate your own model.
 
-You can also take a quick verification with the pretrained weights. Just find them in the [dataset download link](#Dataset-Preparation).
+You can also take a quick verification with the pretrained weights. Just find them in the [Hugging Face](https://huggingface.co/datasets/Zhentao-Liu/TMI2024_SVCT_dataset).
 
 ## Related Links
 - Vector-based CBCT scanning geometry description (source, detector, uvector, vvector) is inspired by [WalnutScan](https://github.com/cicwi/WalnutReconstructionCodes) and [Astra-toolbox](https://github.com/astra-toolbox/astra-toolbox).
