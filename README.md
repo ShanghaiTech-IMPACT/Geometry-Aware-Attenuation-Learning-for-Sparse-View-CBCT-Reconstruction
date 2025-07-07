@@ -31,9 +31,7 @@ As for the spinal dataset, please refer to [CTSpine1K](https://github.com/MIRACL
 ### Walnut Dataset (Real-World)
 As for the walnut dataset, please refer to [WalnutScan](https://github.com/cicwi/WalnutReconstructionCodes) for more details. It is a large-scale real-world walnut CBCT scans dataset collected for machine learning purpose. Many thanks to this great work. We provide the preprocessed walnut CBCT volumes, real-world projections, and geometry description files in the dataset link. 42 cases in total, including 32 cases for training, 5 cases for validation, and 5 cases for testing. You may download them, and then put them in a self-built folder `./dataset/walnut`.
 
-All datasets have been uploaded to [Hugging Face](https://huggingface.co/datasets/Zhentao-Liu/TMI2024_SVCT_dataset).
-
-The dataset split is set as default in `./data/dataset_split`.
+The dataset split is set as default in `./data/dataset_split`. All datasets have been uploaded to [Hugging Face](https://huggingface.co/datasets/Zhentao-Liu/TMI2024_SVCT_dataset).
 
 ## DRR-Simulation
 
