@@ -1,0 +1,16 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+build/
+dist/
+*.egg-info/
+dataset/
+outputs/
+logs/
+train/logs/
+train/checkpoints/
+train/visuals/
+evaluate/logs/
+evaluate/visuals/
+
+docs/local_validation/

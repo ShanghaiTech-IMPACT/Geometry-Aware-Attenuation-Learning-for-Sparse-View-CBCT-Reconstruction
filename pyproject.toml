@@ -1,0 +1,42 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tmi-svct-pl"
+version = "0.1.0"
+description = "Official GAAL reconstruction with optional PyTorch Lightning training"
+readme = "README.md"
+requires-python = ">=3.8,<3.12"
+dependencies = [
+    "setuptools>=68,<81",
+    "numpy==1.24.4",
+    "pyhocon==0.3.61",
+    "SimpleITK==2.4.0",
+    "scikit-image>=0.21,<0.23",
+    "torch>=2.1,<3",
+    "torchvision>=0.16,<1",
+    "pytorch-lightning>=2.2,<2.6",
+    "tensorboard>=2.14",
+    "tqdm==4.66.5",
+]
+
+[project.scripts]
+gaal-lightning = "gaal_cli:train_main"
+gaal-benchmark-memory = "gaal_cli:benchmark_main"
+gaal-leap-drr = "svct_pl.leap_drr:main"
+
+[tool.setuptools]
+py-modules = ["gaal_cli", "DRR_simulation"]
+
+[tool.setuptools.package-data]
+conf = ["*.conf"]
+data = ["dataset_split/*.json"]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["svct_pl", "svct_pl.lightning", "models", "data", "util", "conf"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"

@@ -8,6 +8,8 @@ This is the official repo of our paper **Geometry-Aware Attenuation Learning for
 ![](./image/CBCT_recon_TMI.png)
 
 ## Updated Feature
+
+- **[2026-10-10]** Added PyTorch Lightning training with BF16 mixed precision, activation checkpointing, and expandable CUDA segments enabled by default to reduce GPU memory usage.
 - **[2024-10-24]** Debugging. We have provided a `if_intersect` function in `models/render.py` that decides whether X-rays intersect with bbx. No more bugs for no intersection in `ray_AABB` function.
 - **[2024-10-21]** We have provided a new `angle2vec` function in `models/render.py` that incorporates both `PrimaryAngle` and `SecondaryAngle`, which are commonly used in real-world CBCT scanning system. You may refer to [DICOM Geometry](https://dicom.innolitics.com/ciods/x-ray-angiographic-image/xa-positioner/00181510) for more details about these two angles. And in our paper (DRR simulation for simulated datasets), we only consider about `PrimaryAngle` (rotation angle in our paper), assuming `SecondaryAngle` is set to zero by default. `SecondaryAngle` could also be applied for [Computed Laminography](https://iopscience.iop.org/article/10.1088/1361-6501/aafcae) (CL) imaging as discussed in issue [#2](https://github.com/ShanghaiTech-IMPACT/Geometry-Aware-Attenuation-Learning-for-Sparse-View-CBCT-Reconstruction/issues/2), just setting `SecondaryAngle` as the oblique alpha angle.
 
@@ -46,14 +48,45 @@ In our experiments, we apply Digitally Reconstructed Radiography (DRR) technique
 
 In this way, you will get a data folder `./dataset/dental/syn_data` or `./dataset/spine/syn_data` that containing synthesized X-ray projections and geometry description files for each scanned object. It will generate 360 projections uniformly spaced within the angle range of [0, 360).
 
-## Train
+Alternatively, use [LEAP toolbox](https://github.com/LLNL/LEAP) for DRR generation. Please refer to its [installation guide](https://github.com/LLNL/LEAP/wiki/Installing-LEAP-without-PyTorch) for detailed requirements. The following is an installation example; activate the Python environment used for training first.
+
+    git clone https://github.com/LLNL/LEAP.git
+    cd LEAP
+
+**Windows (Command Prompt):**
+
+    cmd /c .\etc\win_build.bat
+    copy /y .\win_build\bin\Release\libleapct.dll .
+
+**Linux:**
+
+    sh ./etc/build.sh
+    cp ./build/lib/libleapct.so .
+
+After building for your platform, install the Python bindings and return to this repository:
+
+    python manual_install.py
+    cd ..
+
+Then generate DRRs with LEAP:
+
+    # for dental dataset
+    python DRR_simulation_leap.py --start=0 --end=360 --num=360 --sad=500 --sid=700 --datapath=./dataset/dental --resolution=256 --device=cuda:0
+    # for spine dataset
+    python DRR_simulation_leap.py --start=0 --end=360 --num=360 --sad=1000 --sid=1500 --datapath=./dataset/spine --resolution=256 --device=cuda:0
+
+Outputs use the official format in `syn_data_leap`; pass `-D=./dataset/dental/syn_data_leap` (or the spine path) to either trainer. `--resolution=256` preserves the original detector FOV (default: 512). `--device=cpu` supports cubic voxels. LEAP is an offline option with different numerical projections; training loss and online DRR keep the original renderer.
+
+## Original Training and Evaluation
+
+### Train
 After preparing the dataset and X-ray simulation, you could run the following command to train your model.
 
     python train.py -n=<Expname> -D=./dataset/dental/syn_data --datatype=dental --train_scale=4 --fusion=ada --start=0 --end=360 --nviews=20 --angle_sampling=uniform --is_train 
 
 In this way, you would train a model with 20 input views uniformly spaced within [0, 360) on dental dataset. The downsampling rate during training S=4, and it adopts adaptive feature fusing strategy proposed in our paper. Other hyperparameters are set as default. You may modify these hyperparamters to train your own model. The training process may take about 20 hours until convergence.
 
-## Evaluate
+### Evaluate
 Once the above training converged, you could run the following command to evaluate your model on test dataset.
 
     python evaluate.py -n=<Expname> -D=./dataset/dental/syn_data --datatype=dental --train_scale=4 --fusion=ada --start=0 --end=360 --nviews=20 --angle_sampling=uniform --eval_scale=4 --resume_name=200
@@ -61,6 +94,18 @@ Once the above training converged, you could run the following command to evalua
 In this way, it would test the model with 20 input views uniformly spaced within [0, 360) on dental dataset. The downsampling rate during evaluation S=4. Resumed from 200 epoch. You may modify these hyperparameters to evaluate your own model.
 
 You can also take a quick verification with the pretrained weights. Just find them in the [Hugging Face](https://huggingface.co/datasets/Zhentao-Liu/TMI2024_SVCT_dataset).
+
+## PyTorch Lightning Training and Evaluation
+
+### Train
+
+    python train_lightning.py --mode=train -n=<Expname> -D=./dataset/dental/syn_data --datatype=dental --train_scale=4 --fusion=ada --start=0 --end=360 --nviews=20 --angle_sampling=uniform
+
+### Evaluate
+
+    python train_lightning.py --mode=test -n=<Expname> -D=./dataset/dental/syn_data --datatype=dental --train_scale=4 --fusion=ada --start=0 --end=360 --nviews=20 --angle_sampling=uniform --eval_scale=4 --checkpoint=outputs/lightning/<Expname>/checkpoints/history/epoch-0200.ckpt
+
+With **20 views, 256² projections, 256³ reconstruction, S=4, batch size 1**, the original training uses **68.69 GB** of GPU memory, and Lightning training has a sampled process peak of **31.50 GB** on an A100 80GB PCIe.
 
 ## Related Links
 - Vector-based CBCT scanning geometry description (source, detector, uvector, vvector) is inspired by [WalnutScan](https://github.com/cicwi/WalnutReconstructionCodes) and [Astra-toolbox](https://github.com/astra-toolbox/astra-toolbox).

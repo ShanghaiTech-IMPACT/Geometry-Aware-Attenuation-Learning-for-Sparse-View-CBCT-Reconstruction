@@ -1,0 +1,16 @@
+include .gitignore .github/workflows/tests.yml
+include README.md requirements.txt requirements-dev.txt gaal_cli.py
+include train.py trainer.py evaluate.py DRR_simulation.py index.html
+include train_lightning.py benchmark_memory.py
+include DRR_simulation_leap.py
+recursive-include conf *.conf
+recursive-include data/dataset_split *.json
+recursive-include image *.png
+recursive-include docs *.md
+include tests/test_official_lightning.py
+include tests/test_leap_drr.py
+global-exclude __pycache__
+global-exclude *.py[cod]
+prune outputs
+prune dataset
+prune logs
