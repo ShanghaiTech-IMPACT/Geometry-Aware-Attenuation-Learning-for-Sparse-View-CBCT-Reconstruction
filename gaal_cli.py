@@ -13,9 +13,3 @@ def train_main(argv=None):
     configure_allocator()
     from svct_pl.lightning.official_cli import main
     return main(argv)
-
-
-def benchmark_main(argv=None):
-    configure_allocator()
-    from svct_pl.lightning.memory_benchmark import main
-    return main(argv)

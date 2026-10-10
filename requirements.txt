@@ -1,12 +1,11 @@
 numpy==1.24.4
-# Lightning 2.2 uses pkg_resources at runtime.
 setuptools>=68,<81
 pyhocon==0.3.61
 SimpleITK==2.4.0
 scikit-image>=0.21,<0.23
---extra-index-url https://download.pytorch.org/whl/cu118
-torch==2.1.2+cu118
-torchvision==0.16.2+cu118
-pytorch-lightning==2.2.5
+--extra-index-url https://download.pytorch.org/whl/cu121
+torch==2.5.1+cu121
+torchvision==0.20.1+cu121
+pytorch-lightning==2.5.6
 tensorboard>=2.14
 tqdm==4.66.5

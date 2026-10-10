@@ -18,9 +18,9 @@ First clone this repo. And then set up an environment and install packages. We u
 
     git clone https://github.com/ShanghaiTech-IMPACT/Geometry-Aware-Attenuation-Learning-for-Sparse-View-CBCT-Reconstruction.git
     cd Geometry-Aware-Attenuation-Learning-for-Sparse-View-CBCT-Reconstruction
-    conda create -n CBCTrecon python=3.8
+    conda create -n CBCTrecon python=3.10
     conda activate CBCTrecon
-    pip install torch==2.1.2+cu118 torchvision==0.16.2+cu118 --extra-index-url https://download.pytorch.org/whl/cu118
+    pip install torch==2.5.1+cu121 torchvision==0.20.1+cu121 --extra-index-url https://download.pytorch.org/whl/cu121
     pip install -r requirements.txt
 
 ## Dataset-Preparation
