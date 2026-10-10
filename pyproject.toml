@@ -22,11 +22,11 @@ dependencies = [
 ]
 
 [project.scripts]
-gaal-lightning = "gaal_cli:train_main"
+gaal-lightning = "train_lightning:main"
 gaal-leap-drr = "svct_pl.leap_drr:main"
 
 [tool.setuptools]
-py-modules = ["gaal_cli", "DRR_simulation"]
+py-modules = ["train_lightning", "DRR_simulation"]
 
 [tool.setuptools.package-data]
 conf = ["*.conf"]

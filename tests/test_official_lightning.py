@@ -17,7 +17,7 @@ from svct_pl.lightning.official import OfficialSVCTModule
 from svct_pl.lightning.official_cli import build_parser, build_trainer, load_official_config
 from svct_pl.lightning.official_data import OfficialCBCTDataModule
 from svct_pl.lightning.checkpoint import load_legacy_g_render_checkpoint
-from gaal_cli import configure_allocator
+from train_lightning import configure_allocator
 
 
 def tiny_settings(tmp_path, checkpointing=False):
