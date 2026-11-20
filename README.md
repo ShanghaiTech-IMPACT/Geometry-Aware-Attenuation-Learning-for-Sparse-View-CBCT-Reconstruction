@@ -77,7 +77,7 @@ Then generate DRRs with LEAP:
 
 Outputs use the official format in `syn_data_leap`; pass `-D=./dataset/dental/syn_data_leap` (or the spine path) to either trainer. `--resolution=256` preserves the original detector FOV (default: 512). `--device=cpu` supports cubic voxels. LEAP is an offline option with different numerical projections; training loss and online DRR keep the original renderer.
 
-## Original Training and Evaluation
+## PyTorch Training and Evaluation
 
 ### Train
 After preparing the dataset and X-ray simulation, you could run the following command to train your model.
