@@ -122,7 +122,7 @@ There may be some errors during code cleaning. If you have any questions on our 
 ## Citation
 If you find this work is useful for you, please cite our paper.
 
-    @ARTICLE{SVCT,
+    @ARTICLE{GAAL,
           author={Liu, Zhentao and Fang, Yu and Li, Changjian and Wu, Han and Liu, Yuan and Shen, Dinggang and Cui, Zhiming},
           journal={IEEE Transactions on Medical Imaging}, 
           title={Geometry-Aware Attenuation Learning for Sparse-View CBCT Reconstruction}, 
